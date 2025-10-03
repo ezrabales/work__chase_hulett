@@ -1,0 +1,30 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  overflow: hidden;
+}
+
+.container__card {
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  padding: 5px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-container);
+  overflow: hidden;
+  margin: auto;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 340px;
+  }
+}

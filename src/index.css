@@ -13,6 +13,19 @@
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
   width: 100%;
+
+  --background: #000000;
+  --text-container-background: #818181;
+  --form-background: #0000004d;
+  --form-container: #ffffff;
+  --card-container: #ffffff;
+  --none: #00000000;
+  --text1: #000000;
+  --text2: #ffffff;
+  --text3: #555555;
+  --text4: #213547ab;
+  --border: #ffffff;
+  --disabled: #b3b3b3;
 }
 
 a {
@@ -26,8 +39,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   padding: 0;

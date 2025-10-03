@@ -1,0 +1,25 @@
+.form {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--form-background);
+}
+
+.form-is-open {
+  visibility: visible;
+}
+
+.form__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background-color: var(--form-container);
+  border-radius: 20px;
+}

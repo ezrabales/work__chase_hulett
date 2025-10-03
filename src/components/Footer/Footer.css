@@ -1,0 +1,23 @@
+.footer {
+  padding: 8px;
+  background-color: black;
+  min-height: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.footer__button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--none);
+  color: var(--text4);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.footer__copyrights {
+  color: var(--text4);
+  font-size: 0.8rem;
+}
