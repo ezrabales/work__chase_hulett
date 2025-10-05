@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "npm run build && scp -r ./dist/* bales_ezra@chase-hulett.crabdance.com:/home/bales_ezra/work__chase-hulett"
+    "deploy": "npm run build && scp -r ./dist/* bales_ezra@chase-hulett.crabdance.com:/home/bales_ezra/work__chase-hulett__frontend"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.0",
