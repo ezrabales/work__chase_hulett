@@ -2,6 +2,7 @@ import "./App.css";
 // external library imports
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // component imports
 import Main from "../Main/Main";
 import Header from "../Header/Header";
@@ -9,29 +10,62 @@ import Cinema from "../Cinema/Cinema";
 import Videography from "../Videography/Videography";
 import Footer from "../Footer/Footer";
 import Admin from "../Admin/Admin";
-import ProtectedRoute from "../ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute.jsx";
 // modal imports
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ContactMeModal from "../ContactMeModal/ContactMeModal";
-// hook imports
+import LogOutConfirmModal from "../LogOutConfirmModal/LogOutConfirmModal.jsx";
+// hooks and utils imports
 import usePageViews from "../../hooks/usePageViews";
 // api imports
 import { ThirdPartyApi } from "../../utils/ThirdPartyApi";
+import { register, authorize, checkToken } from "../../utils/auth";
 
 const App = () => {
-  console.log(new ThirdPartyApi()._getMovieData());
+  const navigate = useNavigate();
   // state declaration station
   //    modals
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
   const [contactMeModalIsOpen, setContactMeModalIsOpen] = useState(false);
-  //    logged in
+  const [logOutConfirmModalIsOpen, setLogOutConfirmModalIsOpen] =
+    useState(false);
+  //    log in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState();
+
+  // token useEffect
+  useEffect(() => {
+    const currentToken = localStorage.getItem("jwt");
+    setToken(currentToken);
+
+    if (!currentToken) {
+      return;
+    }
+    checkToken(currentToken)
+      .then((userData) => {
+        setIsLoggedIn(true);
+      })
+      .catch(console.error);
+  }, []);
 
   // LoginModal functions
-  function logIn({ email, password }) {
-    console.log("Login!", email, password);
+  function handleLogIn({ email, password }) {
+    authorize({ email, password })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+        }
+        setIsLoggedIn(true);
+        setLoginModalIsOpen(false);
+        navigate("/admin");
+      })
+      .catch((err) => {
+        if (err.name === "TypeError") {
+          console.log("typeerror");
+        }
+      });
   }
 
   function closeLoginModal() {
@@ -39,8 +73,19 @@ const App = () => {
   }
 
   // RegisterModal functions
-  function register({ key, email, password }) {
-    console.log("Register!", key, email, password);
+  function handleRegister({ key, email, password }) {
+    register({ key, email, password })
+      .then((res) => {
+        setRegisterModalIsOpen(false);
+        return authorize({ email, password });
+      })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+        }
+        setIsLoggedIn(true);
+        navigate("/admin");
+      });
   }
 
   function closeRegisterModal() {
@@ -48,11 +93,35 @@ const App = () => {
   }
 
   // ContactMeModal functions
-  function contact({ name, email, message }) {
+  function handleContact({ name, email, message }) {
     console.log("TODO", name, email, message);
   }
   function closeContactMeModal() {
     setContactMeModalIsOpen(false);
+  }
+
+  // LogOutConfirmModal functions
+  function handleConfirmLogOut() {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setLogOutConfirmModalIsOpen(false);
+  }
+
+  function closeLogOutConfirmModal() {
+    setLogOutConfirmModalIsOpen(false);
+  }
+
+  // Admin functions
+  function handleAdminClick() {
+    if (isLoggedIn) {
+      navigate("/admin");
+    } else {
+      setLoginModalIsOpen(true);
+    }
+  }
+
+  function handleLogOutClick() {
+    setLogOutConfirmModalIsOpen(true);
   }
 
   usePageViews();
@@ -72,26 +141,32 @@ const App = () => {
           }
         />
       </Routes>
+      <Footer
+        adminClick={handleAdminClick}
+        onLogOut={handleLogOutClick}
+        contactMeClick={setContactMeModalIsOpen}
+      />
       <LoginModal
         isOpen={loginModalIsOpen}
-        onLogin={logIn}
+        onLogin={handleLogIn}
         onCloseModal={closeLoginModal}
         setRegisterOpen={setRegisterModalIsOpen}
       />
       <RegisterModal
         isOpen={registerModalIsOpen}
-        onRegister={register}
+        onRegister={handleRegister}
         onCloseModal={closeRegisterModal}
         setLoginOpen={setLoginModalIsOpen}
       />
       <ContactMeModal
         isOpen={contactMeModalIsOpen}
         onCloseModal={closeContactMeModal}
-        onContact={contact}
+        onContact={handleContact}
       />
-      <Footer
-        logInClick={setLoginModalIsOpen}
-        contactMeClick={setContactMeModalIsOpen}
+      <LogOutConfirmModal
+        isOpen={logOutConfirmModalIsOpen}
+        onClose={closeLogOutConfirmModal}
+        onConfirmLogOut={handleConfirmLogOut}
       />
     </div>
   );

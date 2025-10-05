@@ -6,7 +6,7 @@ function ProtectedRoute({ children, isLoggedIn }) {
   if (isLoggedIn) {
     return children;
   } else {
-    return Navigate({ to: "/" });
+    return <Navigate to="/" />;
   }
 }
 

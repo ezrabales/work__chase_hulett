@@ -1,6 +1,56 @@
 .admin {
-  width: 100%;
-  height: 100%;
   background-color: var(--background);
   padding: 20px;
+}
+
+.motd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text3);
+}
+
+.motd__title {
+  margin: 0;
+}
+
+.motd__poster {
+  margin: 30px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.motd__movie-title {
+  margin: 0;
+}
+
+.motd__movie-overview {
+  border: 1px solid var(--text-container-background);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.motd__end {
+  border-bottom: 1px solid var(--border);
+  height: 1px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.motd__genres {
+  padding: 7px;
+  display: flex;
+  flex-direction: row;
+}
+
+.motd__genre {
+  color: var(--text2);
+  padding: 0 5px;
+  border-right: 1px solid var(--border);
+}
+
+.motd__genre:first-child {
+  border-left: 1px solid var(--border);
 }

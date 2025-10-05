@@ -26,6 +26,9 @@
   --text4: #213547ab;
   --border: #ffffff;
   --disabled: #b3b3b3;
+  --button-white: #ffffff;
+  --button-red: #ec1212;
+  --button-light-red: #ee7171;
 }
 
 a {

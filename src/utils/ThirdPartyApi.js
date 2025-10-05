@@ -13,9 +13,9 @@ export class ThirdPartyApi {
         console.error(err);
       });
   }
-  _getMovieData() {
+  _getMovieData({ page }) {
     return fetch(
-      `${this._baseUrl}/3/discover/movie?sort_by=release_date.desc&with_original_language=en&primary_release_date.lte=${this._today}&primary_release_date.lte=${this._today}&page=${this.page}`,
+      `${this._baseUrl}/3/discover/movie?sort_by=release_date.desc&with_original_language=en&primary_release_date.gte=${this._today}&primary_release_date.lte=${this._today}&page=${page}`,
       {
         headers: {
           Authorization:

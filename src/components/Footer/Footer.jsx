@@ -1,11 +1,20 @@
 import "./Footer.css";
+import { useLocation } from "react-router-dom";
 
-const Footer = ({ logInClick, contactMeClick }) => {
+const Footer = ({ adminClick, onLogOut, contactMeClick }) => {
+  const location = useLocation();
+  const currentPage = location.pathname;
   return (
     <div className="footer">
-      <button onClick={logInClick} className="footer__button">
-        Admin Sign In
-      </button>
+      {currentPage === "/admin" ? (
+        <button onClick={onLogOut} className="footer__button">
+          Log out
+        </button>
+      ) : (
+        <button onClick={adminClick} className="footer__button">
+          Admin
+        </button>
+      )}
       <div className="footer__copyrights">2025 © Ezra Bales</div>
       <button onClick={contactMeClick} className="footer__button">
         Contact Ezra Bales

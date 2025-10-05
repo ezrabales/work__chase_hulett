@@ -5,4 +5,6 @@
 
 .nav__link {
   width: 6rem;
+  display: flex;
+  justify-content: center;
 }

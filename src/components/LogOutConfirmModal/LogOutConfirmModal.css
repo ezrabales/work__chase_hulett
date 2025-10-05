@@ -1,0 +1,22 @@
+.log-out-confirm {
+  margin: 0 0 20px;
+}
+
+.log-out-confirm__buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.log-out-confirm__button {
+  width: 45%;
+  padding: 5px;
+}
+
+.log-out-confirm__button__logout {
+  background: linear-gradient(
+    to bottom,
+    var(--button-red),
+    var(--button-light-red)
+  );
+}
