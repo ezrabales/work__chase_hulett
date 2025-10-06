@@ -5,6 +5,8 @@ import TextContainer from "../TextContainer/TextContainer";
 import ContactFormContainer from "../ContactFormContainer/ContactFormContainer";
 import { useEffect } from "react";
 import { useSlideEffect } from "../../hooks/useSlideEffect";
+import AwardIcon from "../../assets/Award.svg";
+import TestimonialCard from "../../assets/Testimonial_Card.svg";
 
 const Cinema = () => {
   useSlideEffect({
@@ -57,12 +59,12 @@ const Cinema = () => {
       <Video source="./drone.mp4" />
       <div className="cinema__main-content">
         <CardsContainer extraClass="slide-in-right-rand">
-          <img src="../../src/assets/Award.svg" alt="award" />
-          <img src="../../src/assets/Award.svg" alt="award" />
-          <img src="../../src/assets/Award.svg" alt="award" />
-          <img src="../../src/assets/Award.svg" alt="award" />
-          <img src="../../src/assets/Award.svg" alt="award" />
-          <img src="../../src/assets/Award.svg" alt="award" />
+          <img src={AwardIcon} alt="award" />
+          <img src={AwardIcon} alt="award" />
+          <img src={AwardIcon} alt="award" />
+          <img src={AwardIcon} alt="award" />
+          <img src={AwardIcon} alt="award" />
+          <img src={AwardIcon} alt="award" />
         </CardsContainer>
         <div className="cinema__text_long slide-in-bottom">
           <TextContainer
@@ -87,12 +89,12 @@ const Cinema = () => {
           </div>
         </div>
         <CardsContainer extraClass="slide-in-left-rand">
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
-          <img src="../../src/assets/Testimonial_Card.svg" alt="award" />
+          <img src={TestimonialCard} alt="award" />
+          <img src={TestimonialCard} alt="award" />
+          <img src={TestimonialCard} alt="award" />
+          <img src={TestimonialCard} alt="award" />
+          <img src={TestimonialCard} alt="award" />
+          <img src={TestimonialCard} alt="award" />
         </CardsContainer>
         <ContactFormContainer source="cinema" />
       </div>
