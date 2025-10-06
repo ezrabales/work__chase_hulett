@@ -33,12 +33,10 @@ const App = () => {
     useState(false);
   //    log in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState();
 
   // token useEffect
   useEffect(() => {
     const currentToken = localStorage.getItem("jwt");
-    setToken(currentToken);
 
     if (!currentToken) {
       return;
@@ -85,6 +83,9 @@ const App = () => {
         }
         setIsLoggedIn(true);
         navigate("/admin");
+      })
+      .catch((err) => {
+        console.log(err?.validation?.body?.message || err?.message);
       });
   }
 

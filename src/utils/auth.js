@@ -4,7 +4,7 @@ const BASE_URL =
     : "http://localhost:3001";
 
 function checkResponse(res) {
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
 export const register = ({ key, email, password }) => {
