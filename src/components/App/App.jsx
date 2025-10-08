@@ -19,7 +19,6 @@ import LogOutConfirmModal from "../LogOutConfirmModal/LogOutConfirmModal.jsx";
 // hooks and utils imports
 import usePageViews from "../../hooks/usePageViews";
 // api imports
-import { ThirdPartyApi } from "../../utils/ThirdPartyApi";
 import { register, authorize, checkToken } from "../../utils/auth";
 
 const App = () => {
@@ -33,6 +32,8 @@ const App = () => {
     useState(false);
   //    log in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //    error message
+  const [errorMessage, setErrorMessage] = useState();
 
   // token useEffect
   useEffect(() => {
@@ -48,6 +49,11 @@ const App = () => {
       .catch(console.error);
   }, []);
 
+  // error handling function
+  function handleError(err) {
+    setErrorMessage(err?.validation?.body?.message || err?.message);
+  }
+
   // LoginModal functions
   function handleLogIn({ email, password }) {
     authorize({ email, password })
@@ -59,14 +65,11 @@ const App = () => {
         setLoginModalIsOpen(false);
         navigate("/admin");
       })
-      .catch((err) => {
-        if (err.name === "TypeError") {
-          console.log("typeerror");
-        }
-      });
+      .catch(handleError);
   }
 
   function closeLoginModal() {
+    setErrorMessage(null);
     setLoginModalIsOpen(false);
   }
 
@@ -84,12 +87,11 @@ const App = () => {
         setIsLoggedIn(true);
         navigate("/admin");
       })
-      .catch((err) => {
-        console.log(err?.validation?.body?.message || err?.message);
-      });
+      .catch(handleError);
   }
 
   function closeRegisterModal() {
+    setErrorMessage(null);
     setRegisterModalIsOpen(false);
   }
 
@@ -152,12 +154,16 @@ const App = () => {
         onLogin={handleLogIn}
         onCloseModal={closeLoginModal}
         setRegisterOpen={setRegisterModalIsOpen}
+        errMessage={errorMessage}
+        setErrMessage={setErrorMessage}
       />
       <RegisterModal
         isOpen={registerModalIsOpen}
         onRegister={handleRegister}
         onCloseModal={closeRegisterModal}
         setLoginOpen={setLoginModalIsOpen}
+        errMessage={errorMessage}
+        setErrMessage={setErrorMessage}
       />
       <ContactMeModal
         isOpen={contactMeModalIsOpen}

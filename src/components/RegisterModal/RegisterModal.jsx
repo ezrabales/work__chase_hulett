@@ -2,7 +2,14 @@ import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 
-const RegisterModal = ({ isOpen, onRegister, onCloseModal, setLoginOpen }) => {
+const RegisterModal = ({
+  isOpen,
+  onRegister,
+  onCloseModal,
+  setLoginOpen,
+  errMessage,
+  setErrMessage,
+}) => {
   const { values, handleChange } = useForm({
     key: "",
     email: "",
@@ -10,6 +17,7 @@ const RegisterModal = ({ isOpen, onRegister, onCloseModal, setLoginOpen }) => {
   });
   function handleSubmit(e) {
     e.preventDefault();
+    setErrMessage(null);
     onRegister({
       key: values.key,
       email: values.email,
@@ -18,6 +26,7 @@ const RegisterModal = ({ isOpen, onRegister, onCloseModal, setLoginOpen }) => {
   }
   function handleRegisterClick(e) {
     e.preventDefault();
+    setErrMessage(null);
     onCloseModal();
     setLoginOpen(true);
   }
@@ -67,6 +76,7 @@ const RegisterModal = ({ isOpen, onRegister, onCloseModal, setLoginOpen }) => {
           value={values.password}
         />
       </label>
+      {errMessage && <div className="form__err-message">{errMessage}</div>}
     </ModalWithForm>
   );
 };

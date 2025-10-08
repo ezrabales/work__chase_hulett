@@ -103,3 +103,6 @@
   border: 0;
   margin-left: 20px;
 }
+.form__err-message {
+  color: var(--text5);
+}

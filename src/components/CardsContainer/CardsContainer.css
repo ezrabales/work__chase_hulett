@@ -26,5 +26,15 @@
     justify-content: center;
     align-items: center;
     max-width: 340px;
+    gap: 10px;
+  }
+  .container__card {
+    min-width: 55px;
+    max-width: 290px;
+    min-height: 55px;
+  }
+  .grid-display-column-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }

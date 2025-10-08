@@ -2,17 +2,26 @@ import "./LoginModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 
-const LoginModal = ({ isOpen, onLogin, onCloseModal, setRegisterOpen }) => {
+const LoginModal = ({
+  isOpen,
+  onLogin,
+  onCloseModal,
+  setRegisterOpen,
+  errMessage,
+  setErrMessage,
+}) => {
   const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
   function handleSubmit(e) {
     e.preventDefault();
+    setErrMessage(null);
     onLogin({ email: values.email, password: values.password });
   }
   function handleRegisterClick(e) {
     e.preventDefault();
+    setErrMessage(null);
     onCloseModal();
     setRegisterOpen(true);
   }
@@ -51,6 +60,7 @@ const LoginModal = ({ isOpen, onLogin, onCloseModal, setRegisterOpen }) => {
           value={values.password}
         />
       </label>
+      {errMessage && <div className="form__err-message">{errMessage}</div>}
     </ModalWithForm>
   );
 };

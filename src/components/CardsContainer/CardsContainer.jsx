@@ -1,6 +1,10 @@
 import "./CardsContainer.css";
 
-const CardsContainer = ({ children, extraClass = "" }) => {
+const CardsContainer = ({
+  children,
+  extraClass = "",
+  containerExtraClass = "",
+}) => {
   if (!children) {
     return;
   }
@@ -8,7 +12,7 @@ const CardsContainer = ({ children, extraClass = "" }) => {
     return <div className="container__card">{children}</div>;
   }
   return (
-    <div className="container">
+    <div className={`container ${containerExtraClass}`}>
       {children.map((card, index) => {
         return (
           <div className={`container__card ${extraClass}`} key={index}>

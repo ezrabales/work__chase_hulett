@@ -14,6 +14,7 @@ const Cinema = () => {
     delayMax: 600,
     delayMin: 100,
     rootMargin: "0px 0px -5% 0px",
+    threshold: 0.1,
   });
   useSlideEffect({
     side: "left-rand",
@@ -58,7 +59,10 @@ const Cinema = () => {
       <div className="cinema__background" />
       <Video source="./drone.mp4" />
       <div className="cinema__main-content">
-        <CardsContainer extraClass="slide-in-right-rand">
+        <CardsContainer
+          extraClass="slide-in-right-rand"
+          containerExtraClass="grid-display-column-2"
+        >
           <img src={AwardIcon} alt="award" />
           <img src={AwardIcon} alt="award" />
           <img src={AwardIcon} alt="award" />

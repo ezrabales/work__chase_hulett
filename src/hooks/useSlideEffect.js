@@ -26,14 +26,3 @@ export function useSlideEffect({
     return () => observer.disconnect();
   }, []);
 }
-
-// .slide-in-right {
-//   opacity: 0;
-//   transform: translateX(100px);
-//   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-// }
-
-// .slide-in-right.visible {
-//   opacity: 1;
-//   transform: translateX(0);
-// }
