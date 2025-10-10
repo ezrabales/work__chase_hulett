@@ -9,7 +9,7 @@ const Main = () => {
         <Video source={"/drone.mp4"} />
       </div>
       <div className="main__container">
-        <h1 className="main__title">Chase Hulett</h1>
+        <h1 className="main__title">True Light Pictures</h1>
         <div className="main__section-container">
           <NavLink to={"/cinema"} className="main__left">
             <h2 className="main__left_title">Cinema</h2>
