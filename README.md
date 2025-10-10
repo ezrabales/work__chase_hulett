@@ -21,4 +21,4 @@ I used a lot of flex displays as well as some grid displays to showcase the embe
 
 ## Future Development
 
-The goal for the admin page is to display user data so that the admin knows what is popular and what isn't. This would be done by tracking what elements each user is clicking on and how many users are filling out the contact forms provided. I would also like to make the page look nicer on mobile, even if that means less "flair"
+The goal for the admin page is to display user data so that the admin knows what is popular and what isn't. This would be done by tracking what elements each user is clicking on and how many users are filling out the contact forms provided. I would also like to make the page look nicer on mobile, even if that means less "flair". 
