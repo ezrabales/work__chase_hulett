@@ -16,7 +16,8 @@
     "@google-analytics/data": "^5.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.9.3"
+    "react-router-dom": "^7.9.3",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

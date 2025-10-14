@@ -8,7 +8,7 @@ import { useSlideEffect } from "../../hooks/useSlideEffect";
 import AwardIcon from "../../assets/Award.svg";
 import TestimonialCard from "../../assets/Testimonial_Card.svg";
 
-const Cinema = () => {
+const Cinema = ({ scrollProgress }) => {
   useSlideEffect({
     side: "right-rand",
     delayMax: 600,
@@ -42,6 +42,7 @@ const Cinema = () => {
     if (!bg) return;
 
     // background parallax effect
+    // turn this into a hook withe the scroll management in App.jsx
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const maxScroll =
@@ -72,9 +73,9 @@ const Cinema = () => {
         </CardsContainer>
         <div className="cinema__text_long slide-in-bottom">
           <TextContainer
-            heading="Heading"
-            subheading="Subheading"
-            main="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi quasicorrupti unde pariatur, voluptates hic ut accusantium sunt temporapraesentium, ipsa rerum sapiente ad eligendi repellat veniam, sintblanditiis. Ut."
+            heading="Visuals That Speak Louder Than Words"
+            subheading="Crafting cinematic experiences that linger long after the credits roll."
+            main="We don’t just film—we tell stories. With every project, we aim to capture the emotion, energy, and essence of your vision. Whether it’s a short film, a brand piece, or a personal milestone, we bring your narrative to life with stunning visuals and immersive sound."
           />
         </div>
         <div className="cinema__vid-txt-vid_container">
@@ -83,9 +84,9 @@ const Cinema = () => {
           </div>
           <div className="cinema__vid-txt-vid_text slide-in-bottom">
             <TextContainer
-              heading="Heading"
-              subheading="Subheading"
-              main="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi quasicorrupti unde pariatur, voluptates hic ut accusantium sunt temporapraesentium, ipsa rerum sapiente ad eligendi repellat veniam, sintblanditiis. Ut."
+              heading="Where Art Meets Precision"
+              subheading="A seamless blend of creativity and technical mastery."
+              main="Our process is rooted in collaboration and fueled by passion. From concept development to final edit, we work closely with you to ensure every frame reflects your story. With high-end gear and a filmmaker's eye, we deliver content that's both beautiful and impactful."
             />
           </div>
           <div className="cinema__vid-txt-vid_video slide-in-right">

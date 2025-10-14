@@ -5,7 +5,7 @@ import ContactFormContainer from "../ContactFormContainer/ContactFormContainer";
 import { useEffect } from "react";
 import { useSlideEffect } from "../../hooks/useSlideEffect";
 
-const Videography = () => {
+const Videography = ({ scrollProgress }) => {
   useSlideEffect({
     side: "right-rand",
     delayMax: 600,
@@ -56,9 +56,9 @@ const Videography = () => {
       <div className="vid__main-content">
         <div className="vid__text_long slide-in-bottom">
           <TextContainer
-            heading="Heading"
-            subheading="Subheading"
-            main="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi quasicorrupti unde pariatur, voluptates hic ut accusantium sunt temporapraesentium, ipsa rerum sapiente ad eligendi repellat veniam, sintblanditiis. Ut."
+            heading="Capturing Moments That Move"
+            subheading="From intimate weddings to sweeping landscapes, we craft visual stories that resonate."
+            main="Every frame we shoot is designed to evoke emotion and preserve memory. Our approach blends artistry with technical precision, ensuring your moments are not just recorded—but remembered."
           />
         </div>
         <div className="vid__video-text_container">
@@ -67,18 +67,18 @@ const Videography = () => {
           </div>
           <div className="vid__video-text_text text_right slide-in-left-rand">
             <TextContainer
-              heading="Heading"
-              subheading="Subheading"
-              main="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi quasicorrupti unde pariatur, voluptates hic ut accusantium sunt temporapraesentium, ipsa rerum sapiente ad eligendi repellat veniam, sintblanditiis. Ut."
+              heading="Your Story, Beautifully Told"
+              subheading="We believe every person, brand, and event has a unique narrative."
+              main="With a keen eye for detail and a passion for storytelling, we transform ordinary footage into extraordinary films. Whether it’s a promotional video or a personal milestone, we tailor each project to reflect your vision."
             />
           </div>
         </div>
         <div className="vid__video-text_container">
           <div className="vid__video-text_text text_left slide-in-right-rand">
             <TextContainer
-              heading="Heading"
-              subheading="Subheading"
-              main="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi quasicorrupti unde pariatur, voluptates hic ut accusantium sunt temporapraesentium, ipsa rerum sapiente ad eligendi repellat veniam, sintblanditiis. Ut."
+              heading="From Concept to Final Cut"
+              subheading="Seamless production that brings your ideas to life."
+              main="Our team handles everything—from scripting and shooting to editing and delivery. We use industry-leading equipment and techniques to ensure your final product is polished, powerful, and ready to share."
             />
           </div>
           <div className="vid__video-text_video slide-in-right-rand">

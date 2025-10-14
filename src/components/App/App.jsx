@@ -18,6 +18,7 @@ import ContactMeModal from "../ContactMeModal/ContactMeModal";
 import LogOutConfirmModal from "../LogOutConfirmModal/LogOutConfirmModal.jsx";
 // hooks and utils imports
 import usePageViews from "../../hooks/usePageViews";
+import useAnalyticsScrollEvent from "../../hooks/useAnalyticsScrollEvent.js";
 // api imports
 import { register, authorize, checkToken } from "../../utils/auth";
 
@@ -30,12 +31,53 @@ const App = () => {
   const [contactMeModalIsOpen, setContactMeModalIsOpen] = useState(false);
   const [logOutConfirmModalIsOpen, setLogOutConfirmModalIsOpen] =
     useState(false);
-  //    log in
+  //    states
+  const [currentPage, setCurrentPage] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [maxUserScroll, setMaxUserScroll] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   //    error message
   const [errorMessage, setErrorMessage] = useState();
 
-  // token useEffect
+  // handle scrolling useEffects
+  useEffect(() => {
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress((scrollY / maxScroll) * 100);
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // find location function (formater)
+  function findLocation(path) {
+    if (path === "/") {
+      return "home";
+    }
+    return path.replace("/", "");
+  }
+
+  // analytics scroll useEffects
+  useEffect(() => {
+    if (scrollProgress > maxUserScroll) {
+      setMaxUserScroll(scrollProgress);
+    }
+  }, [scrollProgress]);
+
+  useEffect(() => {
+    if (currentPage && currentPage !== window.location.pathname) {
+      useAnalyticsScrollEvent({
+        location: findLocation(currentPage),
+        maxUserScroll,
+      });
+    }
+    setCurrentPage(window.location.pathname);
+    setMaxUserScroll(0);
+  }, [window.location.pathname]);
+
+  // jwt token useEffect
   useEffect(() => {
     const currentToken = localStorage.getItem("jwt");
 
@@ -133,8 +175,14 @@ const App = () => {
       <Header></Header>
       <Routes>
         <Route path="/" element={<Main></Main>} />
-        <Route path="/cinema" element={<Cinema></Cinema>} />
-        <Route path="/videography" element={<Videography></Videography>} />
+        <Route
+          path="/cinema"
+          element={<Cinema scrollProgress={scrollProgress}></Cinema>}
+        />
+        <Route
+          path="/videography"
+          element={<Videography scrollProgress={scrollProgress}></Videography>}
+        />
         <Route
           path="/admin"
           element={
