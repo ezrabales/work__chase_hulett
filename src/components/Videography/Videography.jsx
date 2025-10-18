@@ -4,8 +4,10 @@ import TextContainer from "../TextContainer/TextContainer";
 import ContactFormContainer from "../ContactFormContainer/ContactFormContainer";
 import { useEffect } from "react";
 import { useSlideEffect } from "../../hooks/useSlideEffect";
+import useAnalyticsClickEvent from "../../hooks/useAnalyticsClickEvent";
 
 const Videography = ({ scrollProgress }) => {
+  useAnalyticsClickEvent({ location: "videography" });
   useSlideEffect({
     side: "right-rand",
     delayMax: 600,

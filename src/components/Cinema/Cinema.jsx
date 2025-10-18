@@ -7,8 +7,10 @@ import { useEffect } from "react";
 import { useSlideEffect } from "../../hooks/useSlideEffect";
 import AwardIcon from "../../assets/Award.svg";
 import TestimonialCard from "../../assets/Testimonial_Card.svg";
+import useAnalyticsClickEvent from "../../hooks/useAnalyticsClickEvent";
 
 const Cinema = ({ scrollProgress }) => {
+  useAnalyticsClickEvent({ location: "cinema" });
   useSlideEffect({
     side: "right-rand",
     delayMax: 600,
@@ -75,7 +77,7 @@ const Cinema = ({ scrollProgress }) => {
           <TextContainer
             heading="Visuals That Speak Louder Than Words"
             subheading="Crafting cinematic experiences that linger long after the credits roll."
-            main="We don’t just film—we tell stories. With every project, we aim to capture the emotion, energy, and essence of your vision. Whether it’s a short film, a brand piece, or a personal milestone, we bring your narrative to life with stunning visuals and immersive sound."
+            main="We don't just film—we tell stories. With every project, we aim to capture the emotion, energy, and essence of your vision. Whether it’s a short film, a brand piece, or a personal milestone, we bring your narrative to life with stunning visuals and immersive sound."
           />
         </div>
         <div className="cinema__vid-txt-vid_container">

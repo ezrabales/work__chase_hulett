@@ -3,11 +3,51 @@ import { ThirdPartyApi } from "../../utils/ThirdPartyApi";
 import { useEffect, useState } from "react";
 import Preloader from "../Preloader/Preloader";
 import genresMap from "../../utils/genresMap";
+import { getAnalyticsData } from "../../utils/basicUser";
 
 const Admin = () => {
   const [movie, setMovie] = useState(null);
   const [popParam, setPopParam] = useState(5);
-  const [genres, setGenres] = useState(["drama", "drama", "darma"]);
+  const [genres, setGenres] = useState([]);
+  // analytics useStates
+  const [data, setData] = useState([]);
+  //    analytics timeSpentEvents useStates
+  const [timeSpentEvents, setTimeSpentEvents] = useState([]);
+  //    analytics clickEvents useStates
+  const [clickEvents, setClickEvents] = useState([]);
+  //    analytics scrollEvents useStates
+  const [scrollEvents, setScrollEvent] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      const tempData = await getAnalyticsData({
+        beginDate: new Date("2025-10-16T23:53:31.126Z"),
+        endDate: new Date(),
+      });
+      setData(tempData);
+    }
+    getData();
+  }, []);
+
+  // split data into the separate events
+  useEffect(() => {
+    if (data?.data) {
+      let tempTotalTimeHome = 0;
+      let tempHomelocations = 0;
+      data.data.forEach((event) => {
+        if (event.event.timeSpent >= 0 && event.location === "home") {
+          tempTotalTimeHome += event.event.timeSpent;
+          tempHomelocations++;
+        }
+      });
+      console.log(tempTotalTimeHome / tempHomelocations);
+    }
+  }, [data]);
+
+  // handle timeSpentEvents
+  useEffect(() => {
+    timeSpentEvents.forEach((event) => {});
+  }, [timeSpentEvents]);
 
   function lowerParams() {
     if (popParam >= 2) {

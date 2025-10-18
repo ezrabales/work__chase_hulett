@@ -9,30 +9,30 @@ let beginningTime;
 let endTime;
 
 function useAnalyticsClickEvent({ location }) {
-  function handleAnalyticsClick(element) {
-    endTime = new Date();
-    const totalTime = endTime.getTime() - beginningTime.getTime();
-    addNewEvent({
-      location,
-      event: { clickedOn: element.target.id, time: totalTime },
-      userToken: useFindVisitToken(),
-    });
-  }
-
-  useEffect(() => {
-    beginningTime = new Date();
-    const analyticsElements = document.getElementsByClassName("analytics");
-    if (analyticsElements) {
-      for (let i = 0; i < analyticsElements.length; i++) {
-        analyticsElements[i].addEventListener("click", handleAnalyticsClick);
-      }
-    }
-    return () => {
-      for (let i = 0; i < analyticsElements.length; i++) {
-        analyticsElements[i].removeEventListener("click", handleAnalyticsClick);
-      }
-    };
-  }, []);
+  // function handleAnalyticsClick(element) {
+  //   endTime = new Date();
+  //   const totalTime = endTime.getTime() - beginningTime.getTime();
+  //   addNewEvent({
+  //     location,
+  //     event: { clickedOn: element.target.id, time: totalTime },
+  //     userToken: useFindVisitToken(),
+  // });
 }
+
+//   useEffect(() => {
+//     beginningTime = new Date();
+//     const analyticsElements = document.getElementsByClassName("analytics");
+//     if (analyticsElements) {
+//       for (let i = 0; i < analyticsElements.length; i++) {
+//         analyticsElements[i].addEventListener("click", handleAnalyticsClick);
+//       }
+//     }
+//     return () => {
+//       for (let i = 0; i < analyticsElements.length; i++) {
+//         analyticsElements[i].removeEventListener("click", handleAnalyticsClick);
+//       }
+//     };
+//   }, []);
+// }
 
 export default useAnalyticsClickEvent;

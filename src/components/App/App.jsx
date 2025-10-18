@@ -19,6 +19,12 @@ import LogOutConfirmModal from "../LogOutConfirmModal/LogOutConfirmModal.jsx";
 // hooks and utils imports
 import usePageViews from "../../hooks/usePageViews";
 import useAnalyticsScrollEvent from "../../hooks/useAnalyticsScrollEvent.js";
+import useFindVisitToken from "../../hooks/useFindVisitToken.js";
+import {
+  addNewEvent,
+  addActiveUser,
+  updateActiveUser,
+} from "../../utils/basicUser.js";
 // api imports
 import { register, authorize, checkToken } from "../../utils/auth";
 
@@ -36,8 +42,57 @@ const App = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [maxUserScroll, setMaxUserScroll] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [documentHidden, setDocumentHidden] = useState(false);
   //    error message
   const [errorMessage, setErrorMessage] = useState();
+
+  // find location function (formatter)
+  function findLocation(path) {
+    if (path === "/") {
+      return "home";
+    }
+    return path.replace("/", "");
+  }
+
+  // documentHidden useEffect
+  useEffect(() => {
+    const handleVisibilityChange = function (event) {
+      setDocumentHidden(document.hidden);
+    };
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  // time spent on each page useEffect
+  //   works when switching pages and closing/minimizing tab
+  //   but, when the user refreshes, it counts as a new piece of data
+  //   (like minimizing then immedietly reopening page)
+  useEffect(() => {
+    let interval;
+    let activeUserId;
+    if (currentPage && !documentHidden) {
+      const startTime = new Date();
+      // addActiveUser({
+      //   location: findLocation(currentPage),
+      //   userToken: useFindVisitToken(),
+      // }).then((res) => {
+      //   activeUserId = res._id;
+      // });
+      interval = setInterval(() => {
+        const nowTime = new Date();
+        const totalTime = (nowTime - startTime) / 1000;
+        updateActiveUser({
+          event: { timeSpent: totalTime },
+          event_id: activeUserId,
+        });
+      }, 2000);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentPage, documentHidden]);
 
   // handle scrolling useEffects
   useEffect(() => {
@@ -50,14 +105,6 @@ const App = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // find location function (formater)
-  function findLocation(path) {
-    if (path === "/") {
-      return "home";
-    }
-    return path.replace("/", "");
-  }
 
   // analytics scroll useEffects
   useEffect(() => {
@@ -104,6 +151,10 @@ const App = () => {
           localStorage.setItem("jwt", res.token);
         }
         setIsLoggedIn(true);
+        addNewEvent({
+          event: "new admin log-in",
+          userToken: useFindVisitToken(),
+        });
         setLoginModalIsOpen(false);
         navigate("/admin");
       })

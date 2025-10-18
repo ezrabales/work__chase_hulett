@@ -71,7 +71,11 @@ const ContactForm = ({
                   value={values.message}
                 />
               </label>
-              <button type="submit" className="contact__submit-btn">
+              <button
+                type="submit"
+                className="contact__submit-btn analytics"
+                id="analytics__submit"
+              >
                 Submit
               </button>
             </form>

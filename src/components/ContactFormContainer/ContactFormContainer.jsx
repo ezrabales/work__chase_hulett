@@ -26,7 +26,11 @@ const ContactFormContainer = ({ source }) => {
   return (
     <div className="contact-container">
       <h1 className="contact-container_title">Let's get Started!</h1>
-      <button onClick={setContactFormIsOpen} className="contact-container_btn">
+      <button
+        onClick={setContactFormIsOpen}
+        className="contact-container_btn analytics"
+        id="analytics__contact-me"
+      >
         Contact me
       </button>
       <ContactForm

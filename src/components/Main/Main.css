@@ -37,7 +37,7 @@
   align-items: center;
   color: var(--text2);
   background-color: var(--form-background);
-  transition: font-size 0.3s;
+  transition: font-size 0.3s, background-color 0.3s;
   cursor: pointer;
 }
 
