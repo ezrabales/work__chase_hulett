@@ -223,7 +223,7 @@ const App = () => {
   usePageViews();
   return (
     <div className="app">
-      <Header></Header>
+      <Header />
       <Routes>
         <Route path="/" element={<Main></Main>} />
         <Route

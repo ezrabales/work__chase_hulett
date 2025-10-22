@@ -48,6 +48,7 @@
 }
 
 .form__label_text {
+  max-width: 100%;
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
@@ -59,6 +60,7 @@
 }
 
 .form__input_text {
+  max-width: 100%;
   margin: 8px 0 0;
   border: 0;
   border-bottom: 1px solid var(--background);

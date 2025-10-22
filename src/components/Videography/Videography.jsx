@@ -52,7 +52,7 @@ const Videography = ({ scrollProgress }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <div className="vid">
+    <main className="vid">
       <div className="vid__background" />
       <Video source={"/drone.mp4"} />
       <div className="vid__main-content">
@@ -89,7 +89,7 @@ const Videography = ({ scrollProgress }) => {
         </div>
         <ContactFormContainer source="videography" />
       </div>
-    </div>
+    </main>
   );
 };
 export default Videography;

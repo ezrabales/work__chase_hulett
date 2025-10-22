@@ -58,7 +58,7 @@ const Cinema = ({ scrollProgress }) => {
   }, []);
 
   return (
-    <div className="cinema">
+    <main className="cinema">
       <div className="cinema__background" />
       <Video source="./drone.mp4" />
       <div className="cinema__main-content">
@@ -105,7 +105,7 @@ const Cinema = ({ scrollProgress }) => {
         </CardsContainer>
         <ContactFormContainer source="cinema" />
       </div>
-    </div>
+    </main>
   );
 };
 export default Cinema;

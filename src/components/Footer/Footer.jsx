@@ -5,7 +5,7 @@ const Footer = ({ adminClick, onLogOut, contactMeClick }) => {
   const location = useLocation();
   const currentPage = location.pathname;
   return (
-    <div className="footer">
+    <footer className="footer">
       {currentPage === "/admin" ? (
         <button onClick={onLogOut} className="footer__button">
           Log out
@@ -19,7 +19,7 @@ const Footer = ({ adminClick, onLogOut, contactMeClick }) => {
       <button onClick={contactMeClick} className="footer__button">
         Contact Ezra Bales
       </button>
-    </div>
+    </footer>
   );
 };
 export default Footer;

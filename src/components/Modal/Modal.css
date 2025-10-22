@@ -16,6 +16,7 @@
 }
 
 .form__container {
+  max-width: calc(100% - 60px);
   position: relative;
   display: flex;
   flex-direction: column;

@@ -3,9 +3,9 @@ import Navigation from "../Navigation/Navigation";
 
 const Header = () => {
   return (
-    <div className="header">
+    <header className="header">
       <Navigation></Navigation>
-    </div>
+    </header>
   );
 };
 export default Header;

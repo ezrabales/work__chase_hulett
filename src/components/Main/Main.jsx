@@ -7,7 +7,7 @@ import useAnalyticsClickEvent from "../../hooks/useAnalyticsClickEvent";
 const Main = () => {
   useAnalyticsClickEvent({ location: "home" });
   return (
-    <div className="main">
+    <main className="main">
       <div className="main__background">
         <Video source={"/drone.mp4"} />
       </div>
@@ -30,7 +30,7 @@ const Main = () => {
           </NavLink>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

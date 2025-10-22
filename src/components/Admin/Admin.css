@@ -16,6 +16,7 @@
 }
 
 .motd__poster {
+  max-width: calc(100% - 45px);
   margin: 30px;
   padding: 10px;
   border: 1px solid var(--border);
