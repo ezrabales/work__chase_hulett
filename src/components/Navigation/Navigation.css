@@ -1,0 +1,10 @@
+.nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav__link {
+  width: 6rem;
+  display: flex;
+  justify-content: center;
+}

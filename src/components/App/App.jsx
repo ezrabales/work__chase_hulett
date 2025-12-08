@@ -1,0 +1,280 @@
+import "./App.css";
+// external library imports
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// component imports
+import Main from "../Main/Main";
+import Header from "../Header/Header";
+import Cinema from "../Cinema/Cinema";
+import Videography from "../Videography/Videography";
+import Footer from "../Footer/Footer";
+import Admin from "../Admin/Admin";
+import ProtectedRoute from "../ProtectedRoute.jsx";
+// modal imports
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import ContactMeModal from "../ContactMeModal/ContactMeModal";
+import LogOutConfirmModal from "../LogOutConfirmModal/LogOutConfirmModal.jsx";
+// hooks and utils imports
+import usePageViews from "../../hooks/usePageViews";
+import useAnalyticsScrollEvent from "../../hooks/useAnalyticsScrollEvent.js";
+import useFindVisitToken from "../../hooks/useFindVisitToken.js";
+import {
+  addNewEvent,
+  addActiveUser,
+  updateActiveUser,
+} from "../../utils/basicUser.js";
+// api imports
+import { register, authorize, checkToken } from "../../utils/auth";
+
+const App = () => {
+  const navigate = useNavigate();
+  // state declaration station
+  //    modals
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
+  const [contactMeModalIsOpen, setContactMeModalIsOpen] = useState(false);
+  const [logOutConfirmModalIsOpen, setLogOutConfirmModalIsOpen] =
+    useState(false);
+  //    states
+  const [currentPage, setCurrentPage] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [maxUserScroll, setMaxUserScroll] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [documentHidden, setDocumentHidden] = useState(false);
+  //    error message
+  const [errorMessage, setErrorMessage] = useState();
+
+  // find location function (formatter)
+  function findLocation(path) {
+    if (path === "/") {
+      return "home";
+    }
+    return path.replace("/", "");
+  }
+
+  // documentHidden useEffect
+  useEffect(() => {
+    const handleVisibilityChange = function (event) {
+      setDocumentHidden(document.hidden);
+    };
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  // time spent on each page useEffect
+  //   works when switching pages and closing/minimizing tab
+  //   but, when the user refreshes, it counts as a new piece of data
+  //   (like minimizing then immedietly reopening page)
+  useEffect(() => {
+    let interval;
+    let activeUserId;
+    if (currentPage && !documentHidden) {
+      const startTime = new Date();
+      // addActiveUser({
+      //   location: findLocation(currentPage),
+      //   userToken: useFindVisitToken(),
+      // }).then((res) => {
+      //   activeUserId = res._id;
+      // });
+      interval = setInterval(() => {
+        const nowTime = new Date();
+        const totalTime = (nowTime - startTime) / 1000;
+        updateActiveUser({
+          event: { timeSpent: totalTime },
+          event_id: activeUserId,
+        });
+      }, 2000);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentPage, documentHidden]);
+
+  // handle scrolling useEffects
+  useEffect(() => {
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress((scrollY / maxScroll) * 100);
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // analytics scroll useEffects
+  useEffect(() => {
+    if (scrollProgress > maxUserScroll) {
+      setMaxUserScroll(scrollProgress);
+    }
+  }, [scrollProgress]);
+
+  useEffect(() => {
+    if (currentPage && currentPage !== window.location.pathname) {
+      useAnalyticsScrollEvent({
+        location: findLocation(currentPage),
+        maxUserScroll,
+      });
+    }
+    setCurrentPage(window.location.pathname);
+    setMaxUserScroll(0);
+  }, [window.location.pathname]);
+
+  // jwt token useEffect
+  useEffect(() => {
+    const currentToken = localStorage.getItem("jwt");
+
+    if (!currentToken) {
+      return;
+    }
+    checkToken(currentToken)
+      .then((userData) => {
+        setIsLoggedIn(true);
+      })
+      .catch(console.error);
+  }, []);
+
+  // error handling function
+  function handleError(err) {
+    setErrorMessage(err?.validation?.body?.message || err?.message);
+  }
+
+  // LoginModal functions
+  function handleLogIn({ email, password }) {
+    authorize({ email, password })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+        }
+        setIsLoggedIn(true);
+        addNewEvent({
+          event: "new admin log-in",
+          userToken: useFindVisitToken(),
+        });
+        setLoginModalIsOpen(false);
+        navigate("/admin");
+      })
+      .catch(handleError);
+  }
+
+  function closeLoginModal() {
+    setErrorMessage(null);
+    setLoginModalIsOpen(false);
+  }
+
+  // RegisterModal functions
+  function handleRegister({ key, email, password }) {
+    register({ key, email, password })
+      .then((res) => {
+        setRegisterModalIsOpen(false);
+        return authorize({ email, password });
+      })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+        }
+        setIsLoggedIn(true);
+        navigate("/admin");
+      })
+      .catch(handleError);
+  }
+
+  function closeRegisterModal() {
+    setErrorMessage(null);
+    setRegisterModalIsOpen(false);
+  }
+
+  // ContactMeModal functions
+  function handleContact({ name, email, message }) {
+    console.log("TODO", name, email, message);
+  }
+  function closeContactMeModal() {
+    setContactMeModalIsOpen(false);
+  }
+
+  // LogOutConfirmModal functions
+  function handleConfirmLogOut() {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setLogOutConfirmModalIsOpen(false);
+  }
+
+  function closeLogOutConfirmModal() {
+    setLogOutConfirmModalIsOpen(false);
+  }
+
+  // Admin functions
+  function handleAdminClick() {
+    if (isLoggedIn) {
+      navigate("/admin");
+    } else {
+      setLoginModalIsOpen(true);
+    }
+  }
+
+  function handleLogOutClick() {
+    setLogOutConfirmModalIsOpen(true);
+  }
+
+  usePageViews();
+  return (
+    <div className="app">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Main></Main>} />
+        <Route
+          path="/cinema"
+          element={<Cinema scrollProgress={scrollProgress}></Cinema>}
+        />
+        <Route
+          path="/videography"
+          element={<Videography scrollProgress={scrollProgress}></Videography>}
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+      <Footer
+        adminClick={handleAdminClick}
+        onLogOut={handleLogOutClick}
+        contactMeClick={setContactMeModalIsOpen}
+      />
+      <LoginModal
+        isOpen={loginModalIsOpen}
+        onLogin={handleLogIn}
+        onCloseModal={closeLoginModal}
+        setRegisterOpen={setRegisterModalIsOpen}
+        errMessage={errorMessage}
+        setErrMessage={setErrorMessage}
+      />
+      <RegisterModal
+        isOpen={registerModalIsOpen}
+        onRegister={handleRegister}
+        onCloseModal={closeRegisterModal}
+        setLoginOpen={setLoginModalIsOpen}
+        errMessage={errorMessage}
+        setErrMessage={setErrorMessage}
+      />
+      <ContactMeModal
+        isOpen={contactMeModalIsOpen}
+        onCloseModal={closeContactMeModal}
+        onContact={handleContact}
+      />
+      <LogOutConfirmModal
+        isOpen={logOutConfirmModalIsOpen}
+        onClose={closeLogOutConfirmModal}
+        onConfirmLogOut={handleConfirmLogOut}
+      />
+    </div>
+  );
+};
+export default App;
